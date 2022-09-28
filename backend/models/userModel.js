@@ -13,7 +13,16 @@ const userSchema=mongoose.Schema(
         },
         password:{
             type:String,
-            required:[true,'Please add a password']
+            required:[true,'Please add a password'],
+            min:4,
+        },
+        isAvatarImageSet:{
+            type:Boolean,
+            default:false,
+        },
+        avatarImage:{
+            type:String,
+            default:"",
         },
        
     },{timestamps:true}
