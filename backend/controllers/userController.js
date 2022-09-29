@@ -92,9 +92,36 @@ const generateToken = (id)=>{
     return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '30d'})
 }
 
+// setavatar Profile images
+const setavatar = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const avatarImage = req.body.image;
+    // console.log('userId', userId);
+    // console.log('avatarImage', req.body.image);
+
+    const userData = await User.findByIdAndUpdate(
+      userId,
+      {
+        isAvatarImageSet: true,
+        avatarImage,
+      },
+      { new: true }
+    );
+    return res.json({
+      isSet: userData.isAvatarImageSet,
+      image: userData.avatarImage,
+    });
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+
 
 module.exports={
     registerUser,
     loginUser,
-    getMe
+    getMe,
+    setavatar
 }
