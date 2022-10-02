@@ -117,11 +117,31 @@ const setavatar = async (req, res, next) => {
   }
 };
 
+// get All contact user
+const getAllContactUser = async (req, res, next) => {
+
+    try {
+        const users = await User.find( {_id:{ $ne: req.params.id } }).select(
+            [ 
+               "_id",
+               "name",
+               "email",
+               "avatarImage"
+            ]
+            )
+            return res.json(users)
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
 
 
 module.exports={
     registerUser,
     loginUser,
     getMe,
-    setavatar
+    setavatar,
+    getAllContactUser
 }
