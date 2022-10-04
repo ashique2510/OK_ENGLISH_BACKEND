@@ -56,6 +56,9 @@ const updateGoal=asyncHandler(async(req,res)=>{
         throw new Error('User not authorized')
     }
 
+    // goal.name = "hello"
+    // await goal.save()
+
 //  ---------------------------------------------------
 
          const updatedGoal= await Goal.findByIdAndUpdate(req.params.id, req.body,{new:true})

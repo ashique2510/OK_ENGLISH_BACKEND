@@ -6,7 +6,7 @@ const {protect}=require('../middleware/authMiddleware')
 router.post('/',registerUser)
 router.post('/login',loginUser)
 router.get('/me',protect,getMe)
-router.post('/setavatar/:id', setavatar)
-router.get('/allusers/:id',getAllContactUser)
+router.post('/setavatar/:id', protect ,setavatar)
+router.get('/allusers/:id', protect ,getAllContactUser)
 
 module.exports=router
