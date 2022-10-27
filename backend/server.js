@@ -19,6 +19,10 @@ app.use('/api/goals',require('./routes/goalRoutes'))
 app.use('/api/users',require('./routes/userRoutes'))
 app.use('/api/messages',require('./routes/messagesRoutes'))
 app.use('/api/tutor',require('./routes/tutorRoutes'))
+app.use('/api/article',require('./routes/articleRoutes'))
+app.use('/api/articleCategory',require('./routes/articleCategoryRoutes'))
+app.use('/api/payment' ,require('./routes/paymentRoute'))
+
 
 
 

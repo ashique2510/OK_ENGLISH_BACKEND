@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 
 const tutorSchema = mongoose.Schema(
   {
-    time: [
-      { fifteenMinutes:String ,
-       thirtyMinutes: String},
-    ],
+    
+  baseAmount:{
+    type:Number
   },
-  { timestamps: true }
+  
+  
+},{ timestamps: true }
 );
 
 module.exports = mongoose.model("Tutor", tutorSchema);
