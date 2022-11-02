@@ -138,10 +138,22 @@ const getAllContactUser = async (req, res, next) => {
 }
 
 
+// @descripton : Get All User data (For Admin) 
+// @route : GET /api/users/me
+// @access : Private (Want to protect)
+const getAllUserForAdmin=asyncHandler(async(req,res)=>{
+         console.log('reached');
+    const allUser = await User.find()
+     res.status(200).json(allUser)
+})
+
+
+
 module.exports={
     registerUser,
     loginUser,
     getMe,
     setavatar,
-    getAllContactUser
+    getAllContactUser,
+    getAllUserForAdmin
 }
