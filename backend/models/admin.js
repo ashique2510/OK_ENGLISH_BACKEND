@@ -8,11 +8,15 @@ const adminSchema = mongoose.Schema(
                              type: new mongoose.Schema(
                                 {
                                     announcement: String,
+                                    date:Date
                                 },
                                 { timestamps: true }
                               )
                             }
                            ]
+
+
+
         
        
        
