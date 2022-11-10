@@ -4,21 +4,28 @@ const adminSchema = mongoose.Schema(
 
     {
         announcementArray: [
-                            {
-                             type: new mongoose.Schema(
+                            
                                 {
                                     announcement: String,
-                                    date:Date
-                                },
-                                { timestamps: true }
-                              )
+                                    date:Date,
+                                }
+                          
+                           ],
+        bookingArray: [
+                            
+                            {
+                                name: String,
+                                email: String,
+                                radioMonth: String,
+                                radioMinutes: String,
+                                radioDays: String,
+                                totalAmount: String,
+                                startDate: Date,
+                                date:Date,
                             }
-                           ]
-
-
-
+                      
+                       ],
         
-       
        
     }
 

@@ -33,7 +33,7 @@ const addAnnouncement = async(req,res) => {
 
            const create = async() =>{
 
-               await Admin.create({announcementArray:[{announcement:req.body.announcement}]})
+               await Admin.create({announcementArray:[{announcement:req.body.announcement, date:new Date }]})
             }
             create()
                res.status(200).json('new announce created')
@@ -68,10 +68,32 @@ const getAnnouncement = async(req,res) => {
     console.log('finsh');
 }
 
+// Get all booking
+
+const getAllBooking = async(req,res) => {
+
+  console.log('from backe eeend');
+
+
+  try{
+      const getBooking = await Admin.findOne({},{bookingArray:1})
+          
+      res.status(200).json(getBooking)
+
+  }catch(err){
+    res.status(500).json(err)
+  }
+  console.log('finsh from booking');
+}
+
+
+
+
 
 
 module.exports={
     addAnnouncement,
-    getAnnouncement
+    getAnnouncement,
+    getAllBooking
 
 }

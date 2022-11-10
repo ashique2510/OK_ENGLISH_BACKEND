@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const Tutor = require('../models/tutorModel')
+const bcrypt=require('bcryptjs')
+
 
 
 
@@ -96,11 +98,75 @@ const getPlanAmount=asyncHandler(async(req,res)=>{
 })
 
 
+// Add Tutor Details
+
+const addTutorDetails = asyncHandler(async(req,res) =>{
+
+    // console.log('req.body',req.body);
+
+    const { name,place, phoneNumber, email, address,education, experience, passwordOne } =req.body.details
+    const   URL   = req.body.url
+
+    // Hash password
+   const salt=await bcrypt.genSalt(10)
+   const hashedPassword=await bcrypt.hash(passwordOne, salt) 
+
+  // creat
+  
+  const createTutor = await Tutor.create({
+            name,
+            place, 
+            phoneNumber, 
+            email, 
+            address,
+            education,
+            experience,
+            password:hashedPassword,
+            trainerImgUrl:URL,
+            isTutor:true
+
+  })
+          if(createTutor){
+              res.status(200).json(createTutor)
+          }else{
+            res.status(400)
+            throw new Error('Invalid user data')
+          }
+
+})
+
+
+const getAllTutors = asyncHandler(async(req,res) => {
+
+    console.log('reaccchedddddddddddddxxxxxxxxxxxx');
+
+    const getTutors = await Tutor.find({isTutor:true})
+
+    if(getTutors){
+        res.status(200).json(getTutors)
+    }else{
+        res.status(400).json('not found')
+    }
+})
+
+//     const addTutor = await   Tutor.updateOne({},
+// {
+//  $push : {
+//     trainersArray :  {
+//              "name": req.body.keyName,
+//            } 
+//   }
+// });
+//          res.json('success')
+
+
 
 module.exports = {
     setFifteenMinFees,
     setThirtyMinutes,
     getPlanAmount,
     setBaseAmount,
-    getBaseAmount
+    getBaseAmount,
+    addTutorDetails,
+    getAllTutors
 }

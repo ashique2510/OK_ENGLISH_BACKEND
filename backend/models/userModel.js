@@ -24,6 +24,9 @@ const userSchema=mongoose.Schema(
             type:String,
             default:"",
         },
+        profilePicUrl:{
+            type:String,
+        },
        
     },{timestamps:true}
 )

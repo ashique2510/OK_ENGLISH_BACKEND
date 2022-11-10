@@ -148,6 +148,45 @@ const getAllUserForAdmin=asyncHandler(async(req,res)=>{
 })
 
 
+// set Profile picture
+const setProfilePicture = async (req, res, next) => {
+    console.log('trigered');
+    console.log('req.bodddy',req.body);
+    try {
+      const userId = req.body.UserId;
+      const profilePicUrl = req.body.image;
+      // console.log('userId', userId);
+      // console.log('profileImage', req.body.image);
+  
+      const userData = await User.findByIdAndUpdate(
+        userId,
+        {
+            profilePicUrl,
+        },
+        { new: true }
+      );
+      return res.json(userData);
+    } catch (ex) {
+      next(ex);
+    }
+  };
+
+  // get Profile picture
+const getProfilePicture = async (req, res, next) => {
+    console.log('trigered from getProfilePic');
+    console.log('req.bodddy',req.body);
+    try {
+      const userId = req.params.id;
+  
+      const userData = await User.findOne({'_id':userId},{'profilePicUrl':1});
+      return res.json(userData);
+    } catch (ex) {
+      next(ex);
+    }
+  };
+
+
+
 
 module.exports={
     registerUser,
@@ -155,5 +194,7 @@ module.exports={
     getMe,
     setavatar,
     getAllContactUser,
-    getAllUserForAdmin
+    getAllUserForAdmin,
+    setProfilePicture,
+    getProfilePicture
 }
