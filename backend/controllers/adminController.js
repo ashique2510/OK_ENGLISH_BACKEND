@@ -1,5 +1,41 @@
 const Admin = require('../models/admin')
+const jwt=require('jsonwebtoken')
+const bcrypt=require('bcryptjs')
+const asyncHandler=require('express-async-handler')
 
+
+//  Admin Login
+
+// @descripton : Authenticate a Admin (Login)
+// @route : POST /api/admin/adminLogin
+// @access : Public
+const loginAdmin=asyncHandler(async(req,res)=>{
+
+  const {email,password}=req.body
+  
+// Check for user Email  
+
+const user=await Admin.findOne({email})
+if(user && (await bcrypt.compare(password, user.password))){
+   res.json({
+       _id:user.id,
+       name:user.name,
+       email:user.email,
+       token:generateToken(user._id)
+
+   })
+}else{
+   res.status(400)
+   throw new Error('Invalid credentials')
+}
+
+})
+
+
+// Generate JWT
+const generateToken = (id)=>{
+  return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '30d'})
+}
 
 
 // need recheck !!!!!!
@@ -94,6 +130,7 @@ const getAllBooking = async(req,res) => {
 module.exports={
     addAnnouncement,
     getAnnouncement,
-    getAllBooking
+    getAllBooking,
+    loginAdmin
 
 }

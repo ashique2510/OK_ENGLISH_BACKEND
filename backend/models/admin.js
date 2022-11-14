@@ -3,6 +3,22 @@ const mongoose = require('mongoose')
 const adminSchema = mongoose.Schema(
 
     {
+        name:{
+            type:String,
+            required:[true,'Please add a name'],
+        },
+        email:{
+            type:String,
+            required:[true,'Please add a email'],
+            unique:true
+        },
+        password:{
+            type:String,
+            required:[true,'Please add a password'],
+            min:4,
+        },
+
+
         announcementArray: [
                             
                                 {
@@ -16,6 +32,7 @@ const adminSchema = mongoose.Schema(
                             {
                                 name: String,
                                 email: String,
+                                ProfilePic:String,
                                 radioMonth: String,
                                 radioMinutes: String,
                                 radioDays: String,

@@ -27,6 +27,18 @@ const userSchema=mongoose.Schema(
         profilePicUrl:{
             type:String,
         },
+        isActive:{
+            type:Boolean,
+            required:true
+        },
+        role:{
+            type:String,
+            required:true
+        },
+        date:{
+            type:Date,
+            required:true
+        },
        
     },{timestamps:true}
 )

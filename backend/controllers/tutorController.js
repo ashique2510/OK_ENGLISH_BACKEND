@@ -1,7 +1,42 @@
 const asyncHandler = require('express-async-handler')
 const Tutor = require('../models/tutorModel')
 const bcrypt=require('bcryptjs')
+const jwt=require('jsonwebtoken')
 
+
+
+//  Tutor Login
+
+// @descripton : Authenticate a Totor (Login)
+// @route : POST /api/admin/tutorLogin
+// @access : Public
+const loginTutor=asyncHandler(async(req,res)=>{
+
+    const {email,password}=req.body
+    
+  // Check for user Email  
+  
+  const tutor=await Tutor.findOne({email})
+  if(tutor && (await bcrypt.compare(password, tutor.password))){
+     res.json({
+         _id:tutor.id,
+         name:tutor.name,
+         email:tutor.email,
+         token:generateToken(tutor._id)
+  
+     })
+  }else{
+     res.status(400)
+     throw new Error('Invalid credentials')
+  }
+  
+  })
+  
+  
+  // Generate JWT
+  const generateToken = (id)=>{
+    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '30d'})
+  }
 
 
 
@@ -138,7 +173,6 @@ const addTutorDetails = asyncHandler(async(req,res) =>{
 
 const getAllTutors = asyncHandler(async(req,res) => {
 
-    console.log('reaccchedddddddddddddxxxxxxxxxxxx');
 
     const getTutors = await Tutor.find({isTutor:true})
 
@@ -149,15 +183,22 @@ const getAllTutors = asyncHandler(async(req,res) => {
     }
 })
 
-//     const addTutor = await   Tutor.updateOne({},
-// {
-//  $push : {
-//     trainersArray :  {
-//              "name": req.body.keyName,
-//            } 
-//   }
-// });
-//          res.json('success')
+// Get all booking for tutor
+
+const getAllTutorBooking = async(req,res) => {
+
+ console.log('req.params',req.params);
+  
+    try{
+        const getBooking = await Tutor.findOne({_id:req.params.id},{bookingArray:1})
+            
+        res.status(200).json(getBooking)
+        
+    }catch(err){
+      res.status(500).json(err)
+    }
+    console.log('finsh from booking');
+  }
 
 
 
@@ -168,5 +209,7 @@ module.exports = {
     setBaseAmount,
     getBaseAmount,
     addTutorDetails,
-    getAllTutors
+    getAllTutors,
+    loginTutor,
+    getAllTutorBooking
 }

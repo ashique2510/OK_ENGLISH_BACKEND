@@ -30,7 +30,11 @@ const registerUser=asyncHandler(async(req,res)=>{
 const user=await User.create({
     name,
     email,
-    password:hashedPassword
+    password:hashedPassword,
+    isActive:true,
+    role:'Normal User',
+    date:new Date,
+
 })   
 
     if(user){
@@ -142,8 +146,8 @@ const getAllContactUser = async (req, res, next) => {
 // @route : GET /api/users/me
 // @access : Private (Want to protect)
 const getAllUserForAdmin=asyncHandler(async(req,res)=>{
-         console.log('reached');
-    const allUser = await User.find()
+         console.log('reacheddd');
+    const allUser = await User.find().sort( { "createdAt": -1 } )
      res.status(200).json(allUser)
 })
 
@@ -188,6 +192,24 @@ const getProfilePicture = async (req, res, next) => {
 
 
 
+    // update status
+const updateStatus = async (req, res, next) => {
+  console.log('req.params',req.params);
+  console.log('req.body',req.body);
+  
+  try {
+    const userId = req.params.id;
+    const { role, isActive } = req.body
+
+         await User.findByIdAndUpdate(userId, {role, isActive} ,{new:true})
+    return res.status(200).json({success:true, result:{_id:userId}});
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+
+
 module.exports={
     registerUser,
     loginUser,
@@ -196,5 +218,6 @@ module.exports={
     getAllContactUser,
     getAllUserForAdmin,
     setProfilePicture,
-    getProfilePicture
+    getProfilePicture,
+    updateStatus
 }

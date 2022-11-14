@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-const Admin = require('../models/admin')
+const Tutor = require('../models/tutorModel')
 
 
 
@@ -56,46 +56,19 @@ const paymentVerify =( async (req, res) => {
 
 		if (razorpay_signature === expectedSign) {
 
-          const { name, email } =req.body.userDetails
-          const { radioMonth, radioMinutes, radioDays, totalAmount, startDate } =req.body.planDetails
-
+          const { name, email, ProfilePic } =req.body.userDetails
+          const { radioMonth, radioMinutes, radioDays, totalAmount, startDate ,tutorId } =req.body.planDetails
+            console.log('plan details',req.body.planDetails);
 			try{
-				await Admin.findOne({},{bookingArray:1},
-			  
-			  function(err,booking){
-	  
-			   if(err){
-				return done(err);
-			  }
-			if(booking){ 
-	  
-			  const updated = async() =>{
-				  
-					 await Admin.updateOne({$push:{bookingArray:[{name, email, radioMonth, radioMinutes, radioDays, totalAmount, startDate ,date:new Date}
-						]}})
-	  
-					  }
-					  updated()
-					  console.log('updated');
-					  res.status(200).json('new booking updated')
-	  
-	  
-			}else{
-	  
-			   const create = async() =>{
-	  
-				   await Admin.create({bookingArray:[{name, email, radioMonth, radioMinutes, radioDays, totalAmount, startDate ,date:new Date}]})
-				}
-				create()
-				   res.status(200).json('Payment verified successfully and new booking created')
-			  console.log('new booking created');
-			}
-		  })
-	  
-	  
-	  
-		}catch(err){
-		  // res.status(500).json(err)
+
+				await Tutor.updateOne({_id:tutorId},{$push:{bookingArray:[{name, email, ProfilePic, radioMonth, radioMinutes, radioDays, totalAmount, startDate ,date:new Date}
+				]}})
+				res.status(200).json('new booking updated')
+                    
+				console.log('new create or updated');
+
+		    }catch(err){
+		  res.status(500).json(err)
 		}
 		console.log('finsh');
 

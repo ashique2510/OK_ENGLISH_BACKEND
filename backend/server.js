@@ -22,7 +22,7 @@ app.use('/api/tutor',require('./routes/tutorRoutes'))
 app.use('/api/article',require('./routes/articleRoutes'))
 app.use('/api/admin',require('./routes/adminRoutes'))
 app.use('/api/payment' ,require('./routes/paymentRoute'))
-
+// ....................................................//
 
 
 

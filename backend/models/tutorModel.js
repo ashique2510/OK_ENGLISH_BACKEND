@@ -17,7 +17,23 @@ const tutorSchema = mongoose.Schema(
         experience:     { type: String,require:true },
         password:       { type: String,require:true },
         trainerImgUrl:  { type: String,require:true },
-        isTutor:        { type:Boolean,require:true }
+        isTutor:        { type:Boolean,require:true },
+
+        bookingArray: [
+                            
+          {
+              name: String,
+              email: String,
+              ProfilePic:String,
+              radioMonth: String,
+              radioMinutes: String,
+              radioDays: String,
+              totalAmount: String,
+              startDate: Date,
+              date:Date,
+          }
+    
+     ],
  
   
 },{ timestamps: true }
